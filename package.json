@@ -1,0 +1,19 @@
+{
+  "name": "job-application-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "nodemon --exec serverless offline start",
+    "deploy": "serverless deploy",
+    "test": "jest"
+  },
+  "author": "Tue An",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.114",
+    "@types/node": "^18.15.11",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^12.0.4",
+    "serverless-plugin-typescript": "^2.1.4",
+    "typescript": "^5.0.3"
+  }
+}
