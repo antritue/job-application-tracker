@@ -1,17 +1,63 @@
-service: test
+service: job-application-tracker
 frameworkVersion: "3"
+
+custom:
+  tableName: "job-table"
+  dynamodb:
+    start:
+      migrate: true
+      inMemory: true
+      port: 8000
+    stages:
+      - dev
 
 provider:
   name: aws
   runtime: nodejs18.x
+  stage: dev
+  region: ap-southeast-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - "Fn::GetAtt": [myTable, Arn]
+
+  environment:
+    TABLE_NAME: ${self:custom.tableName}
 
 functions:
-  api:
-    handler: src/index.handler
+  create:
+    handler: src/functions/create/index.create
+    name: job-create
     events:
       - httpApi:
           path: /
-          method: get
+          method: post
+
+resources:
+  Resources:
+    myTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: jobId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: jobId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
 plugins:
   - serverless-plugin-typescript
