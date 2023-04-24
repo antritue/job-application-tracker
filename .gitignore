@@ -5,3 +5,9 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+# DynamoDB
+.dynamodb
+
+# jest coverage
+coverage

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon -e ts --exec serverless offline start",
     "deploy": "serverless deploy",
-    "test": "jest"
+    "test": "jest --coverage --collectCoverageFrom='./src/**'"
   },
   "author": "Tue An",
   "devDependencies": {
@@ -17,6 +17,7 @@
     "serverless-offline": "^12.0.4",
     "serverless-plugin-typescript": "^2.1.4",
     "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.3"
   },
   "dependencies": {
